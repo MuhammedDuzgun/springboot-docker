@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  database:
+    container_name: springboot-docker-db
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: demo_db_springboot_docker
+    networks:
+      springboot-docker-network:
+
+  app:
+    container_name: springboot-docker
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+    ports:
+      - "8080:8080"
+    networks:
+      springboot-docker-network:
+    restart: on-failure
+
+networks:
+  springboot-docker-network:
