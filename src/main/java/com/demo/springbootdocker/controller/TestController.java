@@ -12,4 +12,9 @@ public class TestController {
         return ResponseEntity.ok("Hello World");
     }
 
+    @GetMapping("/test2")
+    public ResponseEntity<String> testGithubActionsDeploy() {
+        return ResponseEntity.ok("Hello World - Github Actions Deploy");
+    }
+
 }
