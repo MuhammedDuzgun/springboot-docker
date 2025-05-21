@@ -1,0 +1,35 @@
+name: Build and Deploy to VPS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/mhmmddzgn/springboot-docker-app:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/mhmmddzgn/springboot-docker-app:latest
+
+      - name: Add SSH Key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_KEY }}
+
+      - name: SSH and Deploy on VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/mhmmddzgn/springboot-docker-app:latest
+            sudo docker stop springboot-docker || true
+            sudo docker rm springboot-docker || true
+            sudo docker run -d --name springboot-docker -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/mhmmddzgn/springboot-docker-app:latest
+          EOF
