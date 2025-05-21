@@ -26,8 +26,8 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/mhmmddzgn/springboot-docker-app:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/mhmmddzgn/springboot-docker-app:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/springboot-docker-app:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/springboot-docker-app:latest
 
       - name: Add SSH Key
         uses: webfactory/ssh-agent@v0.9.0
