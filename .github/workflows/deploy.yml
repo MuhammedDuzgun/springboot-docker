@@ -37,8 +37,8 @@ jobs:
       - name: SSH and Deploy on VPS
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
-            docker pull ${{ secrets.DOCKER_USERNAME }}/springboot-docker-app:latest
-            docker stop springboot-docker || true
-            docker rm springboot-docker || true
-            docker run -d --name springboot-docker -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/springboot-docker-app:latest
+            cd /opt/springboot-docker-app
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml down
+            docker compose -f docker-compose.prod.yml up -d
           EOF
