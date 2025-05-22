@@ -14,12 +14,12 @@ public class TestController {
 
     @GetMapping("/test2")
     public ResponseEntity<String> testGithubActionsDeploy() {
-        return ResponseEntity.ok("Hello World - Github Actions Deploy");
+        return ResponseEntity.ok("Hello World - Github Actions Deploy 2");
     }
 
-    @GetMapping("/test2")
-    public ResponseEntity<String> testGithubActionsDeploy2() {
-        return ResponseEntity.ok("Hello World - Github Actions Deploy 2");
+    @GetMapping("/test3")
+    public ResponseEntity<String> testGithubActionsDeploy3() {
+        return ResponseEntity.ok("Hello World - Github Actions Deploy 3");
     }
 
 }
