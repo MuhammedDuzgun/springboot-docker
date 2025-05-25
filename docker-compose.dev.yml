@@ -9,6 +9,8 @@ services:
       MYSQL_DATABASE: demo_db_springboot_docker
     networks:
       springboot-docker-network:
+    volumes:
+        - mysql_data:/var/lib/mysql
 
   app:
     container_name: springboot-docker
@@ -22,6 +24,9 @@ services:
     networks:
       springboot-docker-network:
     restart: on-failure
+
+volumes:
+  mysql_data:
 
 networks:
   springboot-docker-network:
